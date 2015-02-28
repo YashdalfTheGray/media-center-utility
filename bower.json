@@ -1,0 +1,34 @@
+{
+  "name": "media-center-utility",
+  "version": "0.1.0",
+  "description": "Media Center Utility",
+  "main": "index.html",
+  "moduleType": [
+    "node"
+  ],
+  "keywords": [
+    "media",
+    "center",
+    "utility"
+  ],
+  "authors": [
+    "Yash Kulshrestha"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "/src/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.2",
+    "angular": "~1.3.14",
+    "angular-animate": "~1.3.14",
+    "angular-route": "~1.3.14",
+    "angular-mocks": "~1.3.14"
+  }
+}
