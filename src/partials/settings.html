@@ -1,0 +1,50 @@
+<div class="jumbotron">
+	<h1>Settings</h1>
+	
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Media Server settings</h3>
+	</div>
+	<div class="panel-body">
+		
+		<div class="checkbox">
+		<label>
+			<input type="checkbox" ng-model="allowEmails"> Let media server send emails
+		</label>
+  		</div>
+		<div ng-show="allowEmails === true">
+			<div class="input-group">
+				<label for="exampleInputEmail1">Email address</label>
+				<input type="email" class="form-control" id="mediaServerEmail" placeholder="Enter email" ng-model="emailAddress">
+			</div>
+			<div class="input-group">
+				<label for="exampleInputPassword1">Password</label>
+				<input type="password" class="form-control" id="mediaServerPass" placeholder="Password" ng-model="password">
+	 		</div>
+	 		<p></p>
+	 		<button type="button" class="btn btn-primary" ng-click="updateEmailSettings()">Save</button>
+ 		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">uTorrent settings</h3>
+	</div>
+	<div class="panel-body">
+	<p>
+			TODO: link and describe <a href="" ng-click="externalClick('https://github.com/psychowood/ng-torrent-ui')">ng-utorrent-ui</a>.
+		</p>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">VPN Settings</h3>
+	</div>
+	<div class="panel-body">
+	Coming soon!
+	</div>
+</div>

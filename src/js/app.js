@@ -14,7 +14,15 @@ angular.module('mediaCenter',
 			when('/main', {
 				templateUrl: 'partials/main.html',
 				controller: 'main'
+			}).
+			when('/files', {
+				templateUrl: 'partials/files.html',
+				controller: 'files'
 			})
-			.otherwise({ redirectTo: '/main'})
+			.when('/settings', {
+				templateUrl: 'partials/settings.html',
+				controller: 'settings'
+			})
+			.otherwise({ redirectTo: '/main'});
 	}
 ]);

@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "./"
+    "url": "https://github.com/YashdalfTheGray/media-center-utility"
   },
   "keywords": [
     "media",
@@ -18,5 +18,10 @@
     "utility"
   ],
   "author": "Yash Kulshrestha",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "gmail-sender": "^0.1.2",
+    "gulp": "^3.8.11",
+    "http-server": "^0.7.5"
+  }
 }
