@@ -6,10 +6,10 @@ To download and run media-center-utility, you need to install 4 things
 
 - [Git](http://git-scm.com/downloads)
 - [Node.js](http://nodejs.org/download/)
-- Bower - can be installed after node.js by running `npm isntall bower -g`*
+- Bower - can be installed after node.js by running `npm isntall bower -g`
 - A text editor ([Notepad++](http://notepad-plus-plus.org/download/v6.7.4.html) or [SublimeText 2](http://www.sublimetext.com/2) or [3](http://www.sublimetext.com/3))
 
-Node.js and git will also need to be in your path environment variable. 
+`node`, `npm` and `git` will also need to be in your path environment variable. 
 
 **Note**: running `npm install` requires elevated privileges. On Windows, the command window should be "Run as Administrator". On Linux and Macs, `sudo` should be used, i.e. `sudo npm install ...`
 
