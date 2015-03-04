@@ -36,6 +36,9 @@ angular.module('mediaCenter.controllers', [])
 			$scope.externalClick = function(url) {
 				$window.open(url, '_blank');
 			};
+			$scope.refreshPlex = function() {
+				console.log('refreshing Plex Media Server!');
+			};
 			$scope.updateEmailSettings = function() {
 				appSettings.serverEmail = $scope.emailAddress;
 				appSettings.serverpassword = $scope.password;

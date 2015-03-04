@@ -1,6 +1,6 @@
 <div class="jumbotron">
 	<h1>Settings</h1>
-	
+	<p>This page aggregates all the settings and under-the-hood options. New ones are added as they are found.</p>
 </div>
 
 <div class="panel panel-default">
@@ -31,12 +31,21 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
+		<h3 class="panel-title">Plex Settings</h3>
+	</div>
+	<div class="panel-body">
+		<button type="button" class="btn btn-primary" ng-click="refreshPlex()">Refresh Plex Server</button>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
 		<h3 class="panel-title">uTorrent settings</h3>
 	</div>
 	<div class="panel-body">
-	<p>
-			TODO: link and describe <a href="" ng-click="externalClick('https://github.com/psychowood/ng-torrent-ui')">ng-utorrent-ui</a>.
-		</p>
+		<p><a href="" ng-click="externalClick('https://github.com/YashdalfTheGray/media-center-utility/blob/master/README.md#setting-up-utorrent-to-play-nice')">
+			Configuring and installing the uTorrent Web UI
+		</a></p>
 	</div>
 </div>
 
