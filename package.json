@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "bower install",
-    "start": "http-server src/ -a 127.0.0.1 -p 8080"
+    "start": "node server/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,8 +20,11 @@
   "author": "Yash Kulshrestha",
   "license": "ISC",
   "dependencies": {
+    "colors": "^1.0.3",
+    "express": "^4.12.2",
     "gmail-sender": "^0.1.2",
     "gulp": "^3.8.11",
-    "http-server": "^0.7.5"
+    "http-server": "^0.7.5",
+    "morgan": "^1.5.1"
   }
 }
