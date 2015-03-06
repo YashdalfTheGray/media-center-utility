@@ -16,12 +16,13 @@
   		</div>
 		<div ng-show="allowEmails === true">
 			<div class="input-group">
-				<label for="exampleInputEmail1">Email address</label>
-				<input type="email" class="form-control" id="mediaServerEmail" placeholder="Enter email" ng-model="emailAddress">
+				<span class="input-group-addon">Email address</span>
+				<input type="email" class="form-control" placeholder="Enter email" ng-model="emailAddress">
 			</div>
+			<p></p>
 			<div class="input-group">
-				<label for="exampleInputPassword1">Password</label>
-				<input type="password" class="form-control" id="mediaServerPass" placeholder="Password" ng-model="password">
+				<span class="input-group-addon">Password</span>
+				<input type="password" class="form-control" placeholder="Password" ng-model="password">
 	 		</div>
 	 		<p></p>
 	 		<button type="button" class="btn btn-primary" ng-click="updateEmailSettings()">Save</button>
