@@ -23,7 +23,25 @@ angular.module('mediaCenter.controllers', [])
 	[
 		'$scope', 
 		function($scope){
-			$scope.appName = 'Media Center';	
+			$scope.filesInProgress = 
+			[
+				{
+					name: 'a file.xlsx'
+				},
+				{
+					name: 'another file.txt'
+				},
+				{
+					name: 'a torremt file.torrent'
+				},
+				{
+					name: 'how about a movie.mov'
+				}
+			];
+			$scope.addNotifier = function(file) {
+				console.log('file: {name: ' + file.name + ', notifyEmail: ' + file.notifyEmail + '}');
+				console.log($scope.filesInProgress);
+			};
 		}
 	]
 )

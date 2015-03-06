@@ -1,4 +1,34 @@
 <div class="jumbotron">
-  	<h1>Welcome!</h1>
-  	<p>This is the settings page of the {{appName}} app!</p>
+  	<h1>Files</h1>
+  	<p>This page displays the list of files that are currently downloading and allows users to sign up to be notified about a completion.</p>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Files in progress</h3>
+	</div>
+	<div class="panel-body">
+		<ul class="list-group">
+			<li class="list-group-item" ng-repeat="file in filesInProgress track by $index">
+				<button class="btn btn-default button-notify-mc" type="button" data-toggle="collapse" 
+						data-target="#notifyWell{{$index}}" aria-expanded="false" aria-controls="notifyWell{{$index}}">
+					<span class="glyphicon glyphicon-bell"></span>
+				</button>
+				{{file.name}}
+				<div class="collapse" id="notifyWell{{$index}}">
+					<p></p>
+					<div class="well">
+						<div class="input-group">
+							<span class="input-group-addon">Notify at</span>
+							<input type="email" class="form-control" placeholder="someone@example.com" 
+								   aria-label="Notification email address" ng-model="file.notifyEmail">
+							<span class="input-group-btn">
+        						<button class="btn btn-primary" type="button" ng-click="addNotifier(file)">Save</button>
+      						</span>
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
 </div>

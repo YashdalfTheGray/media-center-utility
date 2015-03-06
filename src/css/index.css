@@ -1,0 +1,12 @@
+button.button-notify-mc {
+	padding: 4px 8px;
+	border-color: transparent;
+}
+
+button.button-notify-mc:hover,
+button.button-notify-mc:active,
+button.button-notify-mc:focus,
+button.button-notify-mc.active {
+	background-color: transparent;
+	border-color: transparent;
+}
