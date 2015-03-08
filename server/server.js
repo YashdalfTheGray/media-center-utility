@@ -5,9 +5,15 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 var colors = require('colors');
+var ip = require('ip');
+var utorrent = require('utorrent-api');
 
+var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
+var utClient = new utorrent('localhost', '9090');
 
 var app = express();
+
+utClient.setCredentials('admin', 'password');
 
 app.use(morgan(':remote-addr - ' + 
 			   '[:date] '.cyan + 
@@ -27,8 +33,19 @@ app.set('port', process.argv[2] || 8080);
 
 app.get('/finished', function(req, res) {
 	console.log('Torrent job done!');
-	console.log('Details: ' + colors.yellow('{name: ' + req.query.name + ', directory: ' + req.query.directory + '}'));
+	console.log('Details: ' + colors.yellow('{name: ' + 
+				req.query.name + ', directory: ' + req.query.directory + '}'));
 	res.sendStatus(200);
+});
+app.get('/utorrentlist', function(req, res) {
+	utClient.call('list', function(err, torrentList) {
+		if (!err) {
+			res.status(200).json(torrentList);
+		}
+		else {
+			res.status(500).json(err);
+		}
+	});
 });
 
 app.listen(app.get('port'), function() {

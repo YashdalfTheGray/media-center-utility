@@ -25,6 +25,8 @@
     "gmail-sender": "^0.1.2",
     "gulp": "^3.8.11",
     "http-server": "^0.7.5",
-    "morgan": "^1.5.1"
+    "ip": "^0.3.2",
+    "morgan": "^1.5.1",
+    "utorrent-api": "^0.1.4"
   }
 }
