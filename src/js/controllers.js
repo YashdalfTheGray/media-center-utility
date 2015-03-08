@@ -56,10 +56,23 @@ angular.module('mediaCenter.controllers', [])
 )
 .controller('settings', 
 	[
-		'$scope', '$window', 'appSettings',
-		function($scope, $window, appSettings){
-			$scope.emailAddress = '';
-			$scope.password = '';
+		'$scope', '$window', 'dataService', 'appSettings',
+		function($scope, $window, dataService, appSettings){
+			$scope.server = {
+				canSend: false,
+				email: '',
+				password: ''
+			};
+
+			$scope.$on('$routeChangeSuccess', function() {
+				dataService.getServerData(function(data) {
+					$scope.server = data;
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
+			});
 			$scope.externalClick = function(url) {
 				$window.open(url, '_blank');
 			};
@@ -67,10 +80,13 @@ angular.module('mediaCenter.controllers', [])
 				console.log('refreshing Plex Media Server!');
 			};
 			$scope.updateEmailSettings = function() {
-				appSettings.serverEmail = $scope.emailAddress;
-				appSettings.serverpassword = $scope.password;
-				console.log(appSettings.serverEmail);
-				console.log(appSettings.serverpassword);
+				dataService.sendServerData($scope.server, function(data) {
+					console.log('Sent email data POST, reply was: ' + data);
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
 			};
 		}
 	]

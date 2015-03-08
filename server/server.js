@@ -1,15 +1,17 @@
 // To run in full debug mode, use set DEBUG=express:* & node server/server.js
 // on Windows or DEBUG=express:* node server/server.js on unix
 
-var express = require('express');
-var morgan = require('morgan');
-var path = require('path');
-var colors = require('colors');
-var ip = require('ip');
-var utorrent = require('utorrent-api');
+var express = require('express'),
+	morgan = require('morgan'),
+	path = require('path'),
+	colors = require('colors'),
+	ip = require('ip'),
+	utorrent = require('utorrent-api'),
+	bodyParser = require('body-parser');
 
 var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
 var utClient = new utorrent('localhost', '9090');
+var serverdeets = { canSend: false, email: '', password: ''};
 
 var app = express();
 
@@ -28,6 +30,7 @@ app.use(morgan(':remote-addr - ' +
 	}
 ));
 app.use(express.static(path.join(__dirname + '/../src')));
+app.use(bodyParser.json());
 
 app.set('port', process.argv[2] || 8080);
 
@@ -46,6 +49,15 @@ app.get('/utorrentlist', function(req, res) {
 			res.status(500).json(err);
 		}
 	});
+});
+app.get('/serverdeets', function(req, res) {
+	res.status(200).json(serverdeets);
+});
+
+app.post('/serverdeets', function(req, res) {
+	console.log(req.body);
+	serverdeets = req.body;
+	res.sendStatus(200);
 });
 
 app.listen(app.get('port'), function() {

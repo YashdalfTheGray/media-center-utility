@@ -11,18 +11,18 @@
 		
 		<div class="checkbox">
 		<label>
-			<input type="checkbox" ng-model="allowEmails"> Let media server send emails
+			<input type="checkbox" ng-model="server.canSend"> Let media server send emails
 		</label>
   		</div>
-		<div ng-show="allowEmails === true">
+		<div ng-show="server.canSend === true">
 			<div class="input-group">
 				<span class="input-group-addon">Email address</span>
-				<input type="email" class="form-control" placeholder="Enter email" ng-model="emailAddress">
+				<input type="email" class="form-control" placeholder="Enter email" ng-model="server.email">
 			</div>
 			<p></p>
 			<div class="input-group">
 				<span class="input-group-addon">Password</span>
-				<input type="password" class="form-control" placeholder="Password" ng-model="password">
+				<input type="password" class="form-control" placeholder="Password" ng-model="server.password">
 	 		</div>
 	 		<p></p>
 	 		<button type="button" class="btn btn-primary" ng-click="updateEmailSettings()">Save</button>

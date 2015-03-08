@@ -3,19 +3,44 @@
 angular.module('mediaCenter.services', [])
 .constant('appSettings', 
 	{
-		'utorrentUrl': 'http://localhost:9090/gui/latest.html'
+		'utorrentUrl': 'http://localhost:9090/gui/latest.html',
+		'serverUrl': 'http://localhost:8080'
 	}
 )
 .factory(
 	'uTorrentService', 
 	[
-		'$http',
+		'$http', 'appSettings',
 		function($http) {
 			return {
 				getTorrentList: function(successCb, errorCb) {
-					$http.get('http://localhost:8080/utorrentlist')
+					$http.get(appSettings.serverUrl + '/utorrentlist')
 					.success(successCb)
 					.error(errorCb);
+				}
+			};
+		}
+	]
+).factory(
+	'dataService',
+	[
+		'$http', 'appSettings', 
+		function($http, appSettings) {
+			return {
+				sendServerData: function(serverObj, successCb, errorCb) {
+					$http.post(appSettings.serverUrl + '/serverdeets', serverObj
+					)
+					.success(successCb)
+					.error(errorCb);
+				},
+				getServerData: function(successCb, errorCb) {
+					$http.get(appSettings.serverUrl + '/serverdeets')
+					.success(successCb)
+					.error(errorCb);
+
+				},
+				sendFileList: function(fileList) {
+
 				}
 			};
 		}
