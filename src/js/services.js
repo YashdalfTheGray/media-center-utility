@@ -11,7 +11,7 @@ angular.module('mediaCenter.services', [])
 	'uTorrentService', 
 	[
 		'$http', 'appSettings',
-		function($http) {
+		function($http, appSettings) {
 			return {
 				getTorrentList: function(successCb, errorCb) {
 					$http.get(appSettings.serverUrl + '/utorrentlist')
