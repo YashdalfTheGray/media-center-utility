@@ -21,8 +21,8 @@ angular.module('mediaCenter.controllers', [])
 )
 .controller('files', 
 	[
-		'$scope', 'uTorrentService',
-		function($scope, uTorrentService){
+		'$scope', 'uTorrentService', 'dataService',
+		function($scope, uTorrentService, dataService){
 			$scope.debug = true;
 			$scope.filesInProgress = 
 			[
@@ -41,6 +41,13 @@ angular.module('mediaCenter.controllers', [])
 			];
 			$scope.addNotifier = function(file) {
 				console.log('file: {name: ' + file.name + ', notifyEmail: ' + file.notifyEmail + '}');
+				dataService.sendFileListing(file, function(data){
+					console.log('Sent filelisting data POST, reply was: ' + data);
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
 			};
 
 			uTorrentService.getTorrentList(function(data) {
@@ -49,7 +56,6 @@ angular.module('mediaCenter.controllers', [])
 			function(data, status, header, config) {
 				console.log('Something went wrong!');
 				console.log(data);
-
 			});
 		}
 	]

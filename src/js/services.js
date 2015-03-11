@@ -28,8 +28,7 @@ angular.module('mediaCenter.services', [])
 		function($http, appSettings) {
 			return {
 				sendServerData: function(serverObj, successCb, errorCb) {
-					$http.post(appSettings.serverUrl + '/serverdeets', serverObj
-					)
+					$http.post(appSettings.serverUrl + '/serverdeets', serverObj)
 					.success(successCb)
 					.error(errorCb);
 				},
@@ -39,8 +38,10 @@ angular.module('mediaCenter.services', [])
 					.error(errorCb);
 
 				},
-				sendFileList: function(fileList) {
-
+				sendFileListing: function(fileListing, successCb, errorCb) {
+					$http.post(appSettings.serverUrl + '/fileListing', fileListing)
+					.success(successCb)
+					.error(errorCb);
 				}
 			};
 		}

@@ -45,7 +45,7 @@ Using the included finish-notify utilty, you can alert the media-center-utility 
 
 Under Advanced > Run program > Run this program when a torrent finishes, add
 
-`node finish-notify %N %D`
+`node /path/to/finish-notify %N %D`
 
 This will send the name of the torrent and the directory that it's stored in to media-center-utility as well. 
 

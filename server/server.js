@@ -12,6 +12,7 @@ var express = require('express'),
 var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
 var utClient = new utorrent('localhost', '9090');
 var serverdeets = { canSend: false, email: '', password: ''};
+var fileList = [];
 
 var app = express();
 
@@ -57,6 +58,12 @@ app.get('/serverdeets', function(req, res) {
 app.post('/serverdeets', function(req, res) {
 	console.log(req.body);
 	serverdeets = req.body;
+	res.sendStatus(200);
+});
+app.post('/filelisting', function(req, res) {
+	console.log(req.body);
+	fileList.push(req.body);
+	console.log(fileList);
 	res.sendStatus(200);
 });
 
