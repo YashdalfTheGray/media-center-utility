@@ -41,7 +41,7 @@ If you want a better looking and more updated interface, another option is the [
 
 ### Calling an app on torrent finish
 
-Using the included finish-notify utilty, you can alert the media-center-utility when a torrent is done downloading.
+Using the included finish-notify app, you can alert the media-center-utility when a torrent is done downloading.
 
 Under Advanced > Run program > Run this program when a torrent finishes, add
 
