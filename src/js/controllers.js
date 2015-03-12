@@ -64,6 +64,7 @@ angular.module('mediaCenter.controllers', [])
 	[
 		'$scope', '$window', 'dataService', 'appSettings',
 		function($scope, $window, dataService, appSettings){
+			$scope.plexPath = '';
 			$scope.server = {
 				canSend: false,
 				email: '',
@@ -78,16 +79,43 @@ angular.module('mediaCenter.controllers', [])
 					console.log('Something went wrong!');
 					console.log(data);
 				});
+				dataService.getPlexPath(function(data) {
+					$scope.plexPath = data.path;
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
 			});
+
+			$scope.isEmpty = function(string) {
+				console.log('Called with ' + string);
+				return (string === '');
+			};
 			$scope.externalClick = function(url) {
 				$window.open(url, '_blank');
 			};
 			$scope.refreshPlex = function() {
-				console.log('refreshing Plex Media Server!');
+				dataService.refreshPlex(function(data) {
+					console.log('Sent refresh plex GET, reply was: ' + data);
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
 			};
 			$scope.updateEmailSettings = function() {
 				dataService.sendServerData($scope.server, function(data) {
 					console.log('Sent email data POST, reply was: ' + data);
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
+			};
+			$scope.updatePlexSettings = function() {
+				dataService.sendPlexPath($scope.plexPath, function(data) {
+					console.log('Sent plex path POST, reply was: ' + data);
 				},
 				function(data, status, header, config) {
 					console.log('Something went wrong!');

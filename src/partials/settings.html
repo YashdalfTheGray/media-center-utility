@@ -35,7 +35,15 @@
 		<h3 class="panel-title">Plex Settings</h3>
 	</div>
 	<div class="panel-body">
-		<button type="button" class="btn btn-primary" ng-click="refreshPlex()">Refresh Plex Server</button>
+		<div class="input-group">
+			<span class="input-group-addon">Plex server path</span>
+			<input type="text" class="form-control" placeholder="path to Plex Media Server.exe" ng-model="plexPath">
+		</div>
+		<p></p>
+		<button type="button" class="btn btn-primary" ng-click="updatePlexSettings()">Save</button>
+		<button type="button" class="btn btn-primary" ng-click="refreshPlex()" ng-class="{ disabled: !plexPath }">
+			Refresh Plex Server
+		</button>
 	</div>
 </div>
 

@@ -42,6 +42,21 @@ angular.module('mediaCenter.services', [])
 					$http.post(appSettings.serverUrl + '/fileListing', fileListing)
 					.success(successCb)
 					.error(errorCb);
+				},
+				sendPlexPath: function(plexPath, successCb, errorCb) {
+					$http.post(appSettings.serverUrl + '/plexdeets', {path: plexPath})
+					.success(successCb)
+					.error(errorCb);
+				},
+				getPlexPath: function(successCb, errorCb) {
+					$http.get(appSettings.serverUrl + '/plexdeets')
+					.success(successCb)
+					.error(errorCb);
+				},
+				refreshPlex: function(successCb, errorCb) {
+					$http.get(appSettings.serverUrl + '/refreshplex')
+					.success(successCb)
+					.error(errorCb);
 				}
 			};
 		}
