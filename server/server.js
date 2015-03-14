@@ -8,13 +8,16 @@ var express = require('express'),
 	ip = require('ip'),
 	utorrent = require('utorrent-api'),
 	bodyParser = require('body-parser'),
-	gmailSender = require('gmail-sender');
+	gmailSender = require('gmail-sender'),
+	Pouch = require('pouchdb');
 
 var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
-var utClient = new utorrent('localhost', '9090');
 var serverdeets = { canSend: false, email: '', password: ''};
 var fileList = [];
 var plexPath = '';
+
+var utClient = new utorrent('localhost', '9090');
+var db = new Pouch('./server/datastore');
 
 var app = express();
 
@@ -91,8 +94,20 @@ app.get('/refreshplex', function(req, res) {
 });
 
 app.post('/serverdeets', function(req, res) {
-	console.log(req.body);
-	serverdeets = req.body;
+	console.log(req.body);	
+	if (JSON.stringify(serverdeets) !== JSON.stringify(req.body)) {
+		serverdeets = req.body;
+		db.put({
+			_id: 'serverdeets',
+			canSend: serverdeets.canSend,
+			email: serverdeets.email,
+			password: serverdeets.password
+		}).then(function(response) {
+			console.log(response);
+		}).error(function(error) {
+			console.log(error);
+		});
+	}
 	res.sendStatus(200);
 });
 app.post('/filelisting', function(req, res) {
