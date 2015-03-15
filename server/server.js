@@ -8,17 +8,27 @@ var express = require('express'),
 	ip = require('ip'),
 	utorrent = require('utorrent-api'),
 	bodyParser = require('body-parser'),
-	gmailSender = require('gmail-sender');
+	gmailSender = require('gmail-sender'),
+	dataStore = require('docstore');
 
 var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
-var utClient = new utorrent('localhost', '9090');
 var serverdeets = { canSend: false, email: '', password: ''};
 var fileList = [];
 var plexPath = '';
+var db = {};
 
+var utClient = new utorrent('localhost', '9090');
 var app = express();
 
 utClient.setCredentials('admin', 'password');
+dataStore.open('./server/datastore', function(err, store) {
+	if (err) {
+		console.log(err);
+	}
+	else {
+		db = store;
+	}
+});
 
 app.use(morgan(':remote-addr - ' + 
 			   '[:date] '.cyan + 
@@ -45,7 +55,7 @@ app.get('/finished', function(req, res) {
 	var fileNotifier = findNotifierForFile(req.query.name, fileList);
 
 	console.log(fileNotifier);
-	if (fileNotifier.found) {
+	if (fileNotifier.found && serverdeets.canSend) {
 		gmailSender.send({
 			smtp: {
 				service: 'Gmail',
@@ -78,7 +88,14 @@ app.get('/utorrentlist', function(req, res) {
 	});
 });
 app.get('/serverdeets', function(req, res) {
-	res.status(200).json(serverdeets);
+	db.get('serverdeets', function(err, doc) {
+		if (err) {
+			res.status(200).json(serverdeets);
+		}
+		else {
+			res.status(200).json(JSON.parse(doc.jsonStr));
+		}
+	});
 });
 
 app.get('/plexdeets', function(req, res) {
@@ -91,21 +108,55 @@ app.get('/refreshplex', function(req, res) {
 });
 
 app.post('/serverdeets', function(req, res) {
-	console.log(req.body);
+	db.get('serverdeets', function(err, doc) {
+		if (err) {
+			db.save(
+			{
+				key: 'serverdeets',
+				_id: 'serverdeets',
+				jsonStr: JSON.stringify(req.body)
+			}, 
+			function(err, doc) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					console.log('Document with key ' + doc.key + ' stored.');
+				}
+			});
+
+		}
+		else {
+			if (doc.jsonStr !== JSON.stringify(req.body)) {
+				db.save(
+				{
+					key: 'serverdeets',
+					_id: 'serverdeets',
+					jsonStr: JSON.stringify(req.body)
+				}, 
+				function(err, doc) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						console.log('Document with key ' + doc.key + ' modified.');
+					}
+				});
+			}
+		}
+	});
 	serverdeets = req.body;
 	res.sendStatus(200);
 });
 app.post('/filelisting', function(req, res) {
 	console.log(req.body);
 	fileList.push(req.body);
-	console.log(fileList);
 	res.sendStatus(200);
 });
 
 app.post('/plexdeets', function(req, res) {
 	console.log(req.body);
 	plexPath = req.body.path;
-	console.log(plexPath);
 	res.sendStatus(200);
 });
 

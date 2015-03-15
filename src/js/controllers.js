@@ -122,6 +122,19 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 			};
+			$scope.disableEmail = function() {
+				if (!$scope.server.canSend) {
+					$scope.server.email ='';
+					$scope.server.password = '';
+					dataService.sendServerData($scope.server, function(data) {
+						console.log('Sent email disabled data POST, reply was: ' + data);
+					},
+					function(data, status, header, config) {
+						console.log('Something went wrong!');
+						console.log(data);
+					});
+				}
+			};
 		}
 	]
 );
