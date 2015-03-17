@@ -30,6 +30,8 @@ dataStore.open('./server/datastore', function(err, store) {
 	}
 });
 
+
+// Express - app.use() calls
 app.use(morgan(':remote-addr - ' + 
 			   '[:date] '.cyan + 
 			   '":method :url '.green + 
@@ -45,8 +47,12 @@ app.use(morgan(':remote-addr - ' +
 app.use(express.static(path.join(__dirname + '/../src')));
 app.use(bodyParser.json());
 
+
+// Express - app.set() calls
 app.set('port', process.argv[2] || 8080);
 
+
+// Express - app.get() calls
 app.get('/finished', function(req, res) {
 	console.log('Torrent job done!');
 	console.log('Details: ' + colors.yellow('{name: ' + 
@@ -54,7 +60,6 @@ app.get('/finished', function(req, res) {
 
 	var fileNotifier = findNotifierForFile(req.query.name, fileList);
 
-	console.log(fileNotifier);
 	if (fileNotifier.found && serverdeets.canSend) {
 		gmailSender.send({
 			smtp: {
@@ -97,7 +102,6 @@ app.get('/serverdeets', function(req, res) {
 		}
 	});
 });
-
 app.get('/plexdeets', function(req, res) {
 	db.get('plexdeets', function(err, doc) {
 		if (err) {
@@ -116,6 +120,8 @@ app.get('/refreshplex', function(req, res) {
 	console.log('Refresh Plex here');
 });
 
+
+// Express - app.post() calls
 app.post('/serverdeets', function(req, res) {
 	saveToDatastore('serverdeets', req.body);
 	serverdeets = req.body;
@@ -123,7 +129,7 @@ app.post('/serverdeets', function(req, res) {
 });
 app.post('/filelisting', function(req, res) {
 	console.log(req.body);
-	fileList.push(req.body);
+	updateFileListing(req.body, fileList);
 	res.sendStatus(200);
 });
 
@@ -137,18 +143,34 @@ app.listen(app.get('port'), function() {
 	console.log('media-center-utility app listening on port ' + colors.green(app.get('port')));
 });
 
+
+// Private helper methods
 var findNotifierForFile = function(filename, fileList) {
-	console.log(filename);
-	console.log(fileList);
 	var returnVal = {found: false, file: {}};
 	for (var i = 0; i < fileList.length; i++) {
 		if (filename === fileList[i].name) {
 			returnVal.found = true;
-			returnVal.file = fileList[i];
+			returnVal.file = (fileList.splice(i, 1))[0];
 			break;
 		}
 	}
 	return returnVal;
+};
+
+var updateFileListing = function(file, fileList) {
+	var index = -1;
+	for (var i = 0; i < fileList.length; i++) {
+		if (file.name === fileList[i].name) {
+			index = i;
+			break;
+		}
+	}
+	if (index < 0) {
+		fileList.push(file);
+	}
+	else {
+		fileList[index].notifyEmail = file.notifyEmail;
+	}
 };
 
 var saveToDatastore = function(key, value) {
