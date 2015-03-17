@@ -92,5 +92,5 @@ $RECYCLE.BIN/
 # sftp configuration file
 sftp-config.json
 
-# PouchDB database
+# App database
 server/datastore
