@@ -99,8 +99,17 @@ app.get('/serverdeets', function(req, res) {
 });
 
 app.get('/plexdeets', function(req, res) {
-	res.status(200).json({
-		path: plexPath
+	db.get('plexdeets', function(err, doc) {
+		if (err) {
+			res.status(200).json({
+				path: plexPath
+			});
+		}
+		else {
+			res.status(200).json({
+				path: (JSON.parse(doc.jsonStr)).path
+			});
+		}
 	});
 });
 app.get('/refreshplex', function(req, res) {
@@ -108,43 +117,7 @@ app.get('/refreshplex', function(req, res) {
 });
 
 app.post('/serverdeets', function(req, res) {
-	db.get('serverdeets', function(err, doc) {
-		if (err) {
-			db.save(
-			{
-				key: 'serverdeets',
-				_id: 'serverdeets',
-				jsonStr: JSON.stringify(req.body)
-			}, 
-			function(err, doc) {
-				if (err) {
-					console.log(err);
-				}
-				else {
-					console.log('Document with key ' + doc.key + ' stored.');
-				}
-			});
-
-		}
-		else {
-			if (doc.jsonStr !== JSON.stringify(req.body)) {
-				db.save(
-				{
-					key: 'serverdeets',
-					_id: 'serverdeets',
-					jsonStr: JSON.stringify(req.body)
-				}, 
-				function(err, doc) {
-					if (err) {
-						console.log(err);
-					}
-					else {
-						console.log('Document with key ' + doc.key + ' modified.');
-					}
-				});
-			}
-		}
-	});
+	saveToDatastore('serverdeets', req.body);
 	serverdeets = req.body;
 	res.sendStatus(200);
 });
@@ -155,7 +128,7 @@ app.post('/filelisting', function(req, res) {
 });
 
 app.post('/plexdeets', function(req, res) {
-	console.log(req.body);
+	saveToDatastore('plexdeets', req.body);
 	plexPath = req.body.path;
 	res.sendStatus(200);
 });
@@ -176,4 +149,44 @@ var findNotifierForFile = function(filename, fileList) {
 		}
 	}
 	return returnVal;
+};
+
+var saveToDatastore = function(key, value) {
+	db.get(key, function(err, doc) {
+		if (err) {
+			db.save(
+			{
+				key: key,
+				_id: key,
+				jsonStr: JSON.stringify(value)
+			}, 
+			function(err, doc) {
+				if (err) {
+					console.log(err);
+				}
+				else {
+					console.log('Document with key ' + doc.key + ' stored.');
+				}
+			});
+
+		}
+		else {
+			if (doc.jsonStr !== JSON.stringify(value)) {
+				db.save(
+				{
+					key: key,
+					_id: key,
+					jsonStr: JSON.stringify(value)
+				}, 
+				function(err, doc) {
+					if (err) {
+						console.log(err);
+					}
+					else {
+						console.log('Document with key ' + doc.key + ' modified.');
+					}
+				});
+			}
+		}
+	});
 };
