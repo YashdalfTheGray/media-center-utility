@@ -39,6 +39,34 @@ angular.module('mediaCenter.controllers', [])
 					name: 'how about a movie.mov'
 				}
 			];
+			$scope.$on('$routeChangeSuccess', function() {
+				uTorrentService.getTorrentList(function(data) {
+				$scope.testData = data;
+				},
+				function(data, status, header, config) {
+					console.log('Something went wrong!');
+					console.log(data);
+				});
+			});
+			$scope.$watch(
+				function() {
+					var fileNamesArray = [];
+					for (var i = 0; i < fileList.length; i++) {
+						fileNamesArray.push(fileList[i].name);
+					}
+					return fileNamesArray;
+				}, 
+				function(newValue, oldValue) {
+				for(var i = 0; i < filesInProgress.length; i++) {
+					dataService.getNotifyEmail(filesInProgress[i].name, function(data) {
+						filesInProgress[i].notifyEmail = typeof data !== 'undefined' ? data : '';
+					},
+					function(data, status, header, config) {
+						console.log('Something went wrong!');
+						console.log(data);
+					});
+				}
+			});
 			$scope.addNotifier = function(file) {
 				console.log('file: {name: ' + file.name + ', notifyEmail: ' + file.notifyEmail + '}');
 				dataService.sendFileListing(file, function(data){
@@ -49,14 +77,6 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 			};
-
-			uTorrentService.getTorrentList(function(data) {
-				$scope.testData = data;
-			},
-			function(data, status, header, config) {
-				console.log('Something went wrong!');
-				console.log(data);
-			});
 		}
 	]
 )

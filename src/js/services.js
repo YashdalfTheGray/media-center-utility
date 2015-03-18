@@ -43,6 +43,11 @@ angular.module('mediaCenter.services', [])
 					.success(successCb)
 					.error(errorCb);
 				},
+				getNotifyEmail: function(fileName, successCb, errorCb) {
+					$http.get(appSettings.serverUrl + '/filenotifier?file=' + fileName)
+					.success(successCb)
+					.error(errorCb);
+				},
 				sendPlexPath: function(plexPath, successCb, errorCb) {
 					$http.post(appSettings.serverUrl + '/plexdeets', {path: plexPath})
 					.success(successCb)

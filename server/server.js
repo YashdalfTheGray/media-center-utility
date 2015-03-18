@@ -116,6 +116,16 @@ app.get('/plexdeets', function(req, res) {
 		}
 	});
 });
+app.get('/filenotifier', function(req, res) {
+	var fileNotifier = findNotifierForFile(req.query.file, fileList, false);
+	console.log(fileList);
+	if (fileNotifier.found) {
+		res.status(200).send(fileNotifier.file.notifyEmail);
+	}
+	else {
+		res.status(200).end();
+	}
+});
 app.get('/refreshplex', function(req, res) {
 	console.log('Refresh Plex here');
 });
@@ -145,12 +155,13 @@ app.listen(app.get('port'), function() {
 
 
 // Private helper methods
-var findNotifierForFile = function(filename, fileList) {
+var findNotifierForFile = function(filename, fileList, remove) {
+	remove = typeof remove !== 'undefined' ? remove : true;
 	var returnVal = {found: false, file: {}};
 	for (var i = 0; i < fileList.length; i++) {
 		if (filename === fileList[i].name) {
 			returnVal.found = true;
-			returnVal.file = (fileList.splice(i, 1))[0];
+			returnVal.file = remove ? (fileList.splice(i, 1))[0] : fileList[i];
 			break;
 		}
 	}

@@ -12,7 +12,7 @@
 			<li class="list-group-item" ng-repeat="file in filesInProgress track by $index">
 				<button class="btn btn-default button-notify-mc" type="button" data-toggle="collapse" 
 						data-target="#notifyWell{{$index}}" aria-expanded="false" aria-controls="notifyWell{{$index}}">
-					<span class="glyphicon glyphicon-bell"></span>
+					<span class="glyphicon glyphicon-bell" ng-class="{ 'notifier-added' : file.notifyEmail }"></span>
 				</button>
 				{{file.name}}
 				<div class="collapse" id="notifyWell{{$index}}">
