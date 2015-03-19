@@ -56,3 +56,7 @@ This will send the name of the torrent and the directory that it's stored in to 
 Running `npm install` from the repository directory will install all the packages that this app is dependent on.
 
 After `npm install` succeeds, running `npm start` and navigating to `localhost:8080` will serve the application.  
+
+## Testing
+
+Running `npm test` from the project root will run the server and client unit tests and e2e tests. 
