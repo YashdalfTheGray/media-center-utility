@@ -133,7 +133,7 @@ app.get('/refreshplex', function(req, res) {
 
 // Express - app.post() calls
 app.post('/serverdeets', function(req, res) {
-	saveToDatastore('serverdeets', req.body);
+	saveToDatastore('serverdeets', req.body, db);
 	serverdeets = req.body;
 	res.sendStatus(200);
 });
@@ -144,7 +144,7 @@ app.post('/filelisting', function(req, res) {
 });
 
 app.post('/plexdeets', function(req, res) {
-	saveToDatastore('plexdeets', req.body);
+	saveToDatastore('plexdeets', req.body, db);
 	plexPath = req.body.path;
 	res.sendStatus(200);
 });
@@ -153,9 +153,11 @@ app.listen(app.get('port'), function() {
 	console.log('media-center-utility app listening on port ' + colors.green(app.get('port')));
 });
 
+exports.app = app;
 
-// Private helper methods
-var findNotifierForFile = function(filename, fileList, remove) {
+
+// Helper methods
+exports.findNotifierForFile = function(filename, fileList, remove) {
 	remove = typeof remove !== 'undefined' ? remove : true;
 	var returnVal = {found: false, file: {}};
 	for (var i = 0; i < fileList.length; i++) {
@@ -168,7 +170,7 @@ var findNotifierForFile = function(filename, fileList, remove) {
 	return returnVal;
 };
 
-var updateFileListing = function(file, fileList) {
+exports.updateFileListing = function(file, fileList) {
 	var index = -1;
 	for (var i = 0; i < fileList.length; i++) {
 		if (file.name === fileList[i].name) {
@@ -184,10 +186,10 @@ var updateFileListing = function(file, fileList) {
 	}
 };
 
-var saveToDatastore = function(key, value) {
-	db.get(key, function(err, doc) {
+exports.saveToDatastore = function(key, value, datastore) {
+	datastore.get(key, function(err, doc) {
 		if (err) {
-			db.save(
+			datastore.save(
 			{
 				key: key,
 				_id: key,
@@ -205,7 +207,7 @@ var saveToDatastore = function(key, value) {
 		}
 		else {
 			if (doc.jsonStr !== JSON.stringify(value)) {
-				db.save(
+				datastore.save(
 				{
 					key: key,
 					_id: key,
