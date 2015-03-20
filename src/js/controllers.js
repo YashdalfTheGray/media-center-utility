@@ -41,7 +41,7 @@ angular.module('mediaCenter.controllers', [])
 			];
 			$scope.$on('$routeChangeSuccess', function() {
 				uTorrentService.getTorrentList(function(data) {
-				$scope.testData = data;
+					$scope.testData = data;
 				},
 				function(data, status, header, config) {
 					console.log('Something went wrong!');
@@ -51,15 +51,15 @@ angular.module('mediaCenter.controllers', [])
 			$scope.$watch(
 				function() {
 					var fileNamesArray = [];
-					for (var i = 0; i < fileList.length; i++) {
-						fileNamesArray.push(fileList[i].name);
+					for (var i = 0; i < $scope.filesInProgress.length; i++) {
+						fileNamesArray.push($scope.filesInProgress[i].name);
 					}
 					return fileNamesArray;
 				}, 
 				function(newValue, oldValue) {
-				for(var i = 0; i < filesInProgress.length; i++) {
-					dataService.getNotifyEmail(filesInProgress[i].name, function(data) {
-						filesInProgress[i].notifyEmail = typeof data !== 'undefined' ? data : '';
+				for(var i = 0; i < $scope.filesInProgress.length; i++) {
+					dataService.getNotifyEmail($scope.filesInProgress[i].name, function(data) {
+						$scope.filesInProgress[i].notifyEmail = typeof data !== 'undefined' ? data : '';
 					},
 					function(data, status, header, config) {
 						console.log('Something went wrong!');

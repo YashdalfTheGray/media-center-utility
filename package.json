@@ -4,7 +4,7 @@
   "description": "Media Center Utility",
   "main": "index.html",
   "scripts": {
-    "test": "jasmine",
+    "test": "jasmine && karma run spec/support/test.conf.js",
     "postinstall": "bower install",
     "start": "node server/server.js"
   },
@@ -34,6 +34,7 @@
   "devDependencies": {
     "jasmine": "^2.2.1",
     "jasmine-core": "^2.2.0",
+    "jshint-stylish-ex": "^0.2.0",
     "karma": "^0.12.31",
     "karma-cli": "0.0.4",
     "karma-jasmine": "^0.3.5",
