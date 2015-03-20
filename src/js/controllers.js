@@ -57,15 +57,16 @@ angular.module('mediaCenter.controllers', [])
 					return fileNamesArray;
 				}, 
 				function(newValue, oldValue) {
-				for(var i = 0; i < $scope.filesInProgress.length; i++) {
-					dataService.getNotifyEmail($scope.filesInProgress[i].name, function(data) {
+					var successCb = function(data) {
 						$scope.filesInProgress[i].notifyEmail = typeof data !== 'undefined' ? data : '';
-					},
-					function(data, status, header, config) {
+					};
+					var errorCb = function(data, status, header, config) {
 						console.log('Something went wrong!');
 						console.log(data);
-					});
-				}
+					};
+					for(var i = 0; i < $scope.filesInProgress.length; i++) {
+						dataService.getNotifyEmail($scope.filesInProgress[i].name, successCb, errorCb);
+					}
 			});
 			$scope.addNotifier = function(file) {
 				console.log('file: {name: ' + file.name + ', notifyEmail: ' + file.notifyEmail + '}');

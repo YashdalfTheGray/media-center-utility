@@ -6,7 +6,8 @@
   "scripts": {
     "test": "jasmine && karma run spec/support/test.conf.js",
     "postinstall": "bower install",
-    "start": "node server/server.js"
+    "start": "node server/server.js",
+    "lint": "jshint --reporter node_modules/jshint-stylish-ex/stylish.js spec src/js"
   },
   "repository": {
     "type": "git",
@@ -25,13 +26,13 @@
     "docstore": "^0.1.1",
     "express": "^4.12.2",
     "gmail-sender": "^0.1.2",
-    "gulp": "^3.8.11",
     "http-server": "^0.7.5",
     "ip": "^0.3.2",
     "morgan": "^1.5.1",
     "utorrent-api": "^0.1.4"
   },
   "devDependencies": {
+    "gulp": "^3.8.11",
     "jasmine": "^2.2.1",
     "jasmine-core": "^2.2.0",
     "jshint-stylish-ex": "^0.2.0",

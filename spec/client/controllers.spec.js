@@ -37,7 +37,7 @@ describe('Controllers', function() {
 				getTorrentList: function(successCb, errorCb) {
 					successCb({ files: ['sameple', 'test'] });
 				}
-			}
+			};
 
 			scope = $rootScope.$new();
 			controller = $controller('files', { 
@@ -70,7 +70,7 @@ describe('Controllers', function() {
 			});
 
 			it('should get notify emails number-of-files times', function() {
-				pending('have to rethink watching the list of files')
+				pending('have to rethink watching the list of files');
 
 				scope.filesInProgress = 
 				[

@@ -1,4 +1,4 @@
-server = require('./../../server/server.js')
+server = require('./../../server/server.js');
 
 describe('file listing', function() {
 	var fileList, file;
@@ -6,7 +6,7 @@ describe('file listing', function() {
 	beforeEach(function() {
 		fileList = [];
 		file = {};
-	})
+	});
 
 	it('should add file to file list if not found', function() {
 		fileList = [];
@@ -51,7 +51,7 @@ describe('file listing', function() {
 		expect(fileList.length).toBe(1);
 		expect(fileList[0].name).toBe('test');
 		expect(fileList[0].notifyEmail).toBe('test@test.com');
-	})
+	});
 
 	it('should add a new file to the list', function() {
 		fileList = [ { name: 'test', notifyEmail: 'test@test.com'} ];
@@ -64,7 +64,7 @@ describe('file listing', function() {
 		expect(fileList[0].notifyEmail).toBe('test@test.com');
 		expect(fileList[1].name).toBe('another test');
 		expect(fileList[1].notifyEmail).toBe('testerson@test.com');
-	})
+	});
 
 });
 
