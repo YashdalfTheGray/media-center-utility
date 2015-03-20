@@ -59,4 +59,6 @@ After `npm install` succeeds, running `npm start` and navigating to `localhost:8
 
 ## Testing
 
-Running `npm test` from the project root will run the server and client unit tests and e2e tests. 
+Run `karma start spec/support/test.conf.js` from a command window. 
+
+After connecting to the browser, run `npm test` from another command window to run both server and client unit tests. 
