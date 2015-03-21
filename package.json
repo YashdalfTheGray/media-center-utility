@@ -4,10 +4,7 @@
   "description": "Media Center Utility",
   "main": "index.html",
   "scripts": {
-    "test": "jasmine && karma run spec/support/test.conf.js",
-    "postinstall": "bower install",
-    "start": "node server/server.js",
-    "lint": "jshint --reporter node_modules/jshint-stylish-ex/stylish.js spec src/js"
+    "postinstall": "bower install"
   },
   "repository": {
     "type": "git",
@@ -33,6 +30,10 @@
   },
   "devDependencies": {
     "gulp": "^3.8.11",
+    "gulp-jasmine": "^2.0.0",
+    "gulp-jshint": "^1.9.4",
+    "gulp-nodemon": "^2.0.2",
+    "gulp-util": "^3.0.4",
     "jasmine": "^2.2.1",
     "jasmine-core": "^2.2.0",
     "jshint-stylish-ex": "^0.2.0",

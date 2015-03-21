@@ -48,10 +48,6 @@ app.use(express.static(path.join(__dirname + '/../src')));
 app.use(bodyParser.json());
 
 
-// Express - app.set() calls
-app.set('port', process.argv[2] || 8080);
-
-
 // Express - app.get() calls
 app.get('/finished', function(req, res) {
 	console.log('Torrent job done!');
@@ -149,15 +145,26 @@ app.post('/plexdeets', function(req, res) {
 	res.sendStatus(200);
 });
 
-app.listen(app.get('port'), function() {
-	console.log('media-center-utility app listening on port ' + colors.green(app.get('port')));
-});
 
+// Express - app.listen() call
+app.listen(process.argv[2] || 8080);
+
+
+// For testing purposes.
 exports.app = app;
+exports.findNotifierForFile = function(filename, fileList, remove) {
+	return findNotifierForFile(filename, fileList, remove);
+};
+exports.updateFileListing = function(file, fileList) {
+	updateFileListing(file, fileList);
+};
+exports.saveToDatastore = function(key, value, datastore) {
+	saveToDatastore(key, value, datastore);
+};
 
 
 // Helper methods
-exports.findNotifierForFile = function(filename, fileList, remove) {
+var findNotifierForFile = function(filename, fileList, remove) {
 	remove = typeof remove !== 'undefined' ? remove : true;
 	var returnVal = {found: false, file: {}};
 	for (var i = 0; i < fileList.length; i++) {
@@ -170,7 +177,7 @@ exports.findNotifierForFile = function(filename, fileList, remove) {
 	return returnVal;
 };
 
-exports.updateFileListing = function(file, fileList) {
+var updateFileListing = function(file, fileList) {
 	var index = -1;
 	for (var i = 0; i < fileList.length; i++) {
 		if (file.name === fileList[i].name) {
@@ -186,7 +193,7 @@ exports.updateFileListing = function(file, fileList) {
 	}
 };
 
-exports.saveToDatastore = function(key, value, datastore) {
+var saveToDatastore = function(key, value, datastore) {
 	datastore.get(key, function(err, doc) {
 		if (err) {
 			datastore.save(

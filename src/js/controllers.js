@@ -48,7 +48,7 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 			});
-			$scope.$watch(
+			/*$scope.$watch(
 				function() {
 					var fileNamesArray = [];
 					for (var i = 0; i < $scope.filesInProgress.length; i++) {
@@ -67,7 +67,7 @@ angular.module('mediaCenter.controllers', [])
 					for(var i = 0; i < $scope.filesInProgress.length; i++) {
 						dataService.getNotifyEmail($scope.filesInProgress[i].name, successCb, errorCb);
 					}
-			});
+			});*/
 			$scope.addNotifier = function(file) {
 				console.log('file: {name: ' + file.name + ', notifyEmail: ' + file.notifyEmail + '}');
 				dataService.sendFileListing(file, function(data){

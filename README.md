@@ -55,10 +55,16 @@ This will send the name of the torrent and the directory that it's stored in to 
 
 Running `npm install` from the repository directory will install all the packages that this app is dependent on.
 
-After `npm install` succeeds, running `npm start` and navigating to `localhost:8080` will serve the application.  
+After `npm install` succeeds, running `gulp start` and navigating to `localhost:8080` will serve the application.  
 
 ## Testing
 
-Run `karma start spec/support/test.conf.js` from a command window. 
+Run `gulp test:client` to run the client-side unit tests or `gulp test:server` to run the server-side unit tests. 
 
-After connecting to the browser, run `npm test` from another command window to run both server and client unit tests. 
+Run `gulp test` to run both tests at the same time. 
+
+**Note**: Sometimes running the `gulp test[:xx]` commands will throw an `EADDRINUSE` exception. The tests still run and they still pass, scrolling up will show the tssts results. Rerunning the command will generally lead to sucesses. 
+
+## linting
+
+Run `gulp jshint` to run all the first-party .js files through jshint and report any warnings or errors. 
