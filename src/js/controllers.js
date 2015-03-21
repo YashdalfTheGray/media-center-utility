@@ -33,7 +33,7 @@ angular.module('mediaCenter.controllers', [])
 					name: 'another file.txt'
 				},
 				{
-					name: 'a torremt file.torrent'
+					name: 'a torrent file.torrent'
 				},
 				{
 					name: 'how about a movie.mov'

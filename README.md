@@ -65,6 +65,6 @@ Run `gulp test` to run both tests at the same time.
 
 **Note**: Sometimes running the `gulp test[:xx]` commands will throw an `EADDRINUSE` exception. The tests still run and they still pass, scrolling up will show the tssts results. Rerunning the command will generally lead to sucesses. 
 
-## linting
+## Linting
 
 Run `gulp jshint` to run all the first-party .js files through jshint and report any warnings or errors. 
