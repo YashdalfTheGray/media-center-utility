@@ -63,7 +63,7 @@ Run `gulp test:client` to run the client-side unit tests or `gulp test:server` t
 
 Run `gulp test` to run both tests at the same time. 
 
-**Note**: Sometimes running the `gulp test[:xx]` commands will throw an `EADDRINUSE` exception. The tests still run and they still pass, scrolling up will show the tssts results. Rerunning the command will generally lead to sucesses. 
+**Note**: Sometimes running the `gulp test[:xx]` commands will throw an `EADDRINUSE` exception. The tests still run and they still pass, scrolling up will show the test results. Rerunning the command will generally lead to success. 
 
 ## Linting
 
