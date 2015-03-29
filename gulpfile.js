@@ -6,8 +6,7 @@ var gulp = require('gulp'),
 	stylish = require('jshint-stylish-ex'),
 	karma = require('karma').server,
 	jasmine = require('gulp-jasmine'),
-	nodemon = require('gulp-nodemon')/*,
-	server = require('./server/server.js')*/;
+	nodemon = require('gulp-nodemon');
 
 gulp.task('default', ['usage']);
 
@@ -38,7 +37,10 @@ gulp.task('usage', function() {
 });
 
 gulp.task('start', function() {
-	nodemon({ script: 'server/server.js' });
+	nodemon({ 
+		script: 'server/server.js',
+		'ignore': ['spec/*'] 
+	});
 });
 
 gulp.task('jshint', function() {
@@ -52,16 +54,11 @@ gulp.task('jshint', function() {
 	return linting;
 });
 
-gulp.task('test:server', ['_test:server'], function() {
-	process.exit(0);
-});
-
-gulp.task('_test:server', function() {
-	var jasmineTests = gulp.src('spec/server/**/*.spec.js')
+gulp.task('test:server', function() {
+	return gulp.src('spec/server/**/*.spec.js')
 	.pipe(jasmine({
 		verbose: true
 	}));
-	return jasmineTests;
 });
 
 gulp.task('test:client', function(done) {
@@ -71,6 +68,6 @@ gulp.task('test:client', function(done) {
 	}, done);
 });
 
-gulp.task('test', ['_test:server', 'test:client'], function() {
+gulp.task('test', ['test:server', 'test:client'], function() {
 	process.exit(0);
 });

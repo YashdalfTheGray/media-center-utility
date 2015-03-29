@@ -1,4 +1,4 @@
-server = require('./../../server/server.js');
+server = require('./../../server/server-util.js');
 
 describe('file listing', function() {
 	var fileList, file;
@@ -130,16 +130,7 @@ describe('datastore saver', function() {
 	beforeEach(function() {
 		key = '';
 		value = {};
-		consoleText = '';
 		mockDb = {
-			get: function(key, callback) {
-				if (key === 'undefined') {
-					callback({err: 'file not found'});
-				}
-				else if (key === 'defined') {
-					callback(null, {key: 'defined', _id: 'defined', jsonStr: 'test json string'});
-				}
-			},
 			save: function(objectToSave, callback) {
 				if (typeof objectToSave.key === 'undefined' || 
 					typeof objectToSave._id === 'undefined' || 
@@ -155,9 +146,12 @@ describe('datastore saver', function() {
 		spyOn(mockDb, 'save').and.callThrough();
 	});
 
-	
+	it('should call save when a new record comes in', function() {
+		key = 'not defined in db';
+		value = {key: 'something new', id: 'something new', jsonStr: 'a whole new world'};
 
-	it('pending tests', function() {
-		pending('to test future additions to the code');
+		server.saveToDatastore(key, value, mockDb, true);
+
+		expect(mockDb.save).toHaveBeenCalled();
 	});
 });

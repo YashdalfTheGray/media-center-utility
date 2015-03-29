@@ -9,7 +9,8 @@ var express = require('express'),
 	utorrent = require('utorrent-api'),
 	bodyParser = require('body-parser'),
 	gmailSender = require('gmail-sender'),
-	dataStore = require('docstore');
+	dataStore = require('docstore'),
+	serverUtil = require('./server-util.js');
 
 var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
 var serverdeets = { canSend: false, email: '', password: ''};
@@ -54,7 +55,7 @@ app.get('/finished', function(req, res) {
 	console.log('Details: ' + colors.yellow('{name: ' + 
 				req.query.name + ', directory: ' + req.query.directory + '}'));
 
-	var fileNotifier = findNotifierForFile(req.query.name, fileList);
+	var fileNotifier = serverUtil.findNotifierForFile(req.query.name, fileList);
 
 	if (fileNotifier.found && serverdeets.canSend) {
 		gmailSender.send({
@@ -113,7 +114,7 @@ app.get('/plexdeets', function(req, res) {
 	});
 });
 app.get('/filenotifier', function(req, res) {
-	var fileNotifier = findNotifierForFile(req.query.file, fileList, false);
+	var fileNotifier = serverUtil.findNotifierForFile(req.query.file, fileList, false);
 	console.log(fileList);
 	if (fileNotifier.found) {
 		res.status(200).send(fileNotifier.file.notifyEmail);
@@ -129,18 +130,18 @@ app.get('/refreshplex', function(req, res) {
 
 // Express - app.post() calls
 app.post('/serverdeets', function(req, res) {
-	saveToDatastore('serverdeets', req.body, db);
+	serverUtil.saveToDatastore('serverdeets', req.body, db);
 	serverdeets = req.body;
 	res.sendStatus(200);
 });
 app.post('/filelisting', function(req, res) {
 	console.log(req.body);
-	updateFileListing(req.body, fileList);
+	serverUtil.updateFileListing(req.body, fileList);
 	res.sendStatus(200);
 });
 
 app.post('/plexdeets', function(req, res) {
-	saveToDatastore('plexdeets', req.body, db);
+	serverUtil.saveToDatastore('plexdeets', req.body, db);
 	plexPath = req.body.path;
 	res.sendStatus(200);
 });
@@ -148,87 +149,3 @@ app.post('/plexdeets', function(req, res) {
 
 // Express - app.listen() call
 app.listen(process.argv[2] || 8080);
-
-
-// For testing purposes.
-exports.app = app;
-exports.findNotifierForFile = function(filename, fileList, remove) {
-	return findNotifierForFile(filename, fileList, remove);
-};
-exports.updateFileListing = function(file, fileList) {
-	updateFileListing(file, fileList);
-};
-exports.saveToDatastore = function(key, value, datastore) {
-	saveToDatastore(key, value, datastore);
-};
-
-
-// Helper methods
-var findNotifierForFile = function(filename, fileList, remove) {
-	remove = typeof remove !== 'undefined' ? remove : true;
-	var returnVal = {found: false, file: {}};
-	for (var i = 0; i < fileList.length; i++) {
-		if (filename === fileList[i].name) {
-			returnVal.found = true;
-			returnVal.file = remove ? (fileList.splice(i, 1))[0] : fileList[i];
-			break;
-		}
-	}
-	return returnVal;
-};
-
-var updateFileListing = function(file, fileList) {
-	var index = -1;
-	for (var i = 0; i < fileList.length; i++) {
-		if (file.name === fileList[i].name) {
-			index = i;
-			break;
-		}
-	}
-	if (index < 0) {
-		fileList.push(file);
-	}
-	else {
-		fileList[index].notifyEmail = file.notifyEmail;
-	}
-};
-
-var saveToDatastore = function(key, value, datastore) {
-	datastore.get(key, function(err, doc) {
-		if (err) {
-			datastore.save(
-			{
-				key: key,
-				_id: key,
-				jsonStr: JSON.stringify(value)
-			}, 
-			function(err, doc) {
-				if (err) {
-					console.log(err);
-				}
-				else {
-					console.log('Document with key ' + doc.key + ' stored.');
-				}
-			});
-
-		}
-		else {
-			if (doc.jsonStr !== JSON.stringify(value)) {
-				datastore.save(
-				{
-					key: key,
-					_id: key,
-					jsonStr: JSON.stringify(value)
-				}, 
-				function(err, doc) {
-					if (err) {
-						console.log(err);
-					}
-					else {
-						console.log('Document with key ' + doc.key + ' modified.');
-					}
-				});
-			}
-		}
-	});
-};

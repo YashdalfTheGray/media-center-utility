@@ -48,28 +48,7 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 			});
-			/*$scope.$watch(
-				function() {
-					var fileNamesArray = [];
-					for (var i = 0; i < $scope.filesInProgress.length; i++) {
-						fileNamesArray.push($scope.filesInProgress[i].name);
-					}
-					return fileNamesArray;
-				}, 
-				function(newValue, oldValue) {
-					var successCb = function(data) {
-						$scope.filesInProgress[i].notifyEmail = typeof data !== 'undefined' ? data : '';
-					};
-					var errorCb = function(data, status, header, config) {
-						console.log('Something went wrong!');
-						console.log(data);
-					};
-					for(var i = 0; i < $scope.filesInProgress.length; i++) {
-						dataService.getNotifyEmail($scope.filesInProgress[i].name, successCb, errorCb);
-					}
-			});*/
 			$scope.addNotifier = function(file) {
-				console.log('file: {name: ' + file.name + ', notifyEmail: ' + file.notifyEmail + '}');
 				dataService.sendFileListing(file, function(data){
 					console.log('Sent filelisting data POST, reply was: ' + data);
 				},
@@ -77,6 +56,20 @@ angular.module('mediaCenter.controllers', [])
 					console.log('Something went wrong!');
 					console.log(data);
 				});
+			};
+			$scope.fetchNotifier = function(fileName, index) {
+				var notifyWell = angular.element(document.getElementById('notifyWell' + index.toString()));
+				if (!notifyWell.is(':visible')) {
+					dataService.getNotifyEmail(fileName, function(data) {
+						if (data) {
+							$scope.filesInProgress[index].notifyEmail = data;
+						}
+					},
+					function(data, status, header, config) {
+						console.log('Something went wrong!');
+						console.log(data);
+					});
+				}
 			};
 		}
 	]
