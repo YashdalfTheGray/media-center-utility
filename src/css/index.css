@@ -13,4 +13,5 @@ button.button-notify-mc.active {
 
 span.notifier-added {
 	color: #2196f3;
+	padding-left: 10px;
 }

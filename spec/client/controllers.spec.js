@@ -51,10 +51,10 @@ describe('Controllers', function() {
 			spyOn(mockTorrentService, 'getTorrentList');
 		}));
 
-		describe('$scope.addNotifier', function() {
+		describe('$scope.storeFileDetails', function() {
 
 			it('should send file list to the service', function() {
-				scope.addNotifier({
+				scope.storeFileDetails({
 					name: 'testFile',
 					notifyEmail: 'test@test.com'
 				});

@@ -48,7 +48,7 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 			});
-			$scope.addNotifier = function(file) {
+			$scope.storeFileDetails = function(file) {
 				dataService.sendFileListing(file, function(data){
 					console.log('Sent filelisting data POST, reply was: ' + data);
 				},
@@ -58,7 +58,7 @@ angular.module('mediaCenter.controllers', [])
 				});
 			};
 			$scope.fetchNotifier = function(fileName, index) {
-				var notifyWell = angular.element(document.getElementById('notifyWell' + index.toString()));
+				var notifyWell = angular.element(document.getElementById('fileDetailsWell' + index.toString()));
 				if (!notifyWell.is(':visible')) {
 					dataService.getNotifyEmail(fileName, function(data) {
 						if (data) {
@@ -70,6 +70,9 @@ angular.module('mediaCenter.controllers', [])
 						console.log(data);
 					});
 				}
+			};
+			$scope.setType = function(file, type) {
+				file.type = type;
 			};
 		}
 	]

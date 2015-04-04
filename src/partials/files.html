@@ -11,22 +11,57 @@
 		<ul class="list-group">
 			<li class="list-group-item" ng-repeat="file in filesInProgress track by $index">
 				<button class="btn btn-default button-notify-mc" type="button" data-toggle="collapse" 
-						data-target="#notifyWell{{$index}}" aria-expanded="false" aria-controls="notifyWell{{$index}}"
+						data-target="#fileDetailsWell{{$index}}" aria-expanded="false" aria-controls="fileDetailsWell{{$index}}"
 						ng-click="fetchNotifier(file.name, $index)">
-					<span class="glyphicon glyphicon-bell" ng-class="{ 'notifier-added' : file.notifyEmail }"></span>
+					<span class="glyphicon glyphicon-cog"></span>
 				</button>
 				{{file.name}}
-				<div class="collapse" id="notifyWell{{$index}}">
+				<span class="glyphicon glyphicon-bell notifier-added" ng-show="file.notifyEmail"></span>
+				<div class="collapse" id="fileDetailsWell{{$index}}">
 					<p></p>
 					<div class="well">
 						<div class="input-group">
 							<span class="input-group-addon">Notify at</span>
 							<input type="email" class="form-control" placeholder="someone@example.com" 
 								   aria-label="Notification email address" ng-model="file.notifyEmail">
-							<span class="input-group-btn">
-        						<button class="btn btn-primary" type="button" ng-click="addNotifier(file)">Save</button>
-      						</span>
 						</div>
+						<p></p>
+						<label class="radio-inline">
+							<input type="radio" name="typeRadio{{$index}}" ng-click="setType(file, 'movie')">Movie
+						</label>
+						<label class="radio-inline">
+							<input type="radio" name="typeRadio{{$index}}" ng-click="setType(file, 'show')">TV Show
+						</label>
+						<p></p>
+						<div class="input-group" ng-if="file.type === 'movie'">
+							<span class="input-group-addon">Movie Title</span>
+							<input type="email" class="form-control" placeholder="e.g. Pulp Fiction" 
+								   aria-label="Movie Title" ng-model="file.movieTitle">
+						</div>
+						<div ng-if="file.type === 'show'">
+							<div class="input-group">
+								<span class="input-group-addon">TV Show Title</span>
+								<input type="email" class="form-control" placeholder="e.g. Archer" 
+									   aria-label="Show Title" ng-model="file.showTitle">
+							</div>
+							<p></p>
+							<div class="form-inline">
+								<span class="input-group">
+									<span class="input-group-addon">Season</span>
+									<input type="email" class="form-control" placeholder="e.g. 5" 
+										   aria-label="Season Number" ng-model="file.showSeason">
+								</span>
+								<span class="input-group">
+									<span class="input-group-addon">Episode</span>
+									<input type="email" class="form-control" placeholder="e.g. 10" 
+										   aria-label="Episode Number" ng-model="file.showEpisode">
+								</span>
+							</div>
+						</div>
+						<p></p>
+						<button type="button" class="btn btn-primary" ng-click="storeFileDetails(file)">
+							Save Details
+						</button>
 					</div>
 				</div>
 			</li>
