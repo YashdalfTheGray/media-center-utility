@@ -33,27 +33,27 @@
 							<input type="radio" name="typeRadio{{$index}}" ng-click="setType(file, 'show')">TV Show
 						</label>
 						<p></p>
-						<div class="input-group" ng-if="file.type === 'movie'">
+						<div class="input-group" ng-show="file.type === 'movie'">
 							<span class="input-group-addon">Movie Title</span>
-							<input type="email" class="form-control" placeholder="e.g. Pulp Fiction" 
+							<input type="text" class="form-control" placeholder="e.g. Pulp Fiction" 
 								   aria-label="Movie Title" ng-model="file.movieTitle">
 						</div>
-						<div ng-if="file.type === 'show'">
+						<div ng-show="file.type === 'show'">
 							<div class="input-group">
 								<span class="input-group-addon">TV Show Title</span>
-								<input type="email" class="form-control" placeholder="e.g. Archer" 
+								<input type="text" class="form-control" placeholder="e.g. Archer" 
 									   aria-label="Show Title" ng-model="file.showTitle">
 							</div>
 							<p></p>
 							<div class="form-inline">
 								<span class="input-group">
 									<span class="input-group-addon">Season</span>
-									<input type="email" class="form-control" placeholder="e.g. 5" 
+									<input type="text" class="form-control" placeholder="e.g. 5" 
 										   aria-label="Season Number" ng-model="file.showSeason">
 								</span>
 								<span class="input-group">
 									<span class="input-group-addon">Episode</span>
-									<input type="email" class="form-control" placeholder="e.g. 10" 
+									<input type="text" class="form-control" placeholder="e.g. 10" 
 										   aria-label="Episode Number" ng-model="file.showEpisode">
 								</span>
 							</div>

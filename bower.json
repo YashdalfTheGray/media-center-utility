@@ -22,7 +22,8 @@
     "bower_components",
     "/src/lib",
     "test",
-    "tests"
+    "tests",
+    "spec"
   ],
   "dependencies": {
     "bootstrap": "~3.3.2",
