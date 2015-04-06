@@ -81,7 +81,11 @@ angular.module('mediaCenter.controllers', [])
 	[
 		'$scope', '$window', 'dataService', 'appSettings',
 		function($scope, $window, dataService, appSettings){
-			$scope.plexPath = '';
+			$scope.plex = {
+				path: '',
+				libMovies: '',
+				libTvShows: ''
+			};
 			$scope.server = {
 				canSend: false,
 				email: '',
@@ -97,7 +101,7 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 				dataService.getPlexPath(function(data) {
-					$scope.plexPath = data.path;
+					$scope.plex = data;
 				},
 				function(data, status, header, config) {
 					console.log('Something went wrong!');
@@ -131,7 +135,7 @@ angular.module('mediaCenter.controllers', [])
 				});
 			};
 			$scope.updatePlexSettings = function() {
-				dataService.sendPlexPath($scope.plexPath, function(data) {
+				dataService.sendPlexPath($scope.plex, function(data) {
 					console.log('Sent plex path POST, reply was: ' + data);
 				},
 				function(data, status, header, config) {

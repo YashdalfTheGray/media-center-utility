@@ -10,12 +10,13 @@ var express = require('express'),
 	bodyParser = require('body-parser'),
 	gmailSender = require('gmail-sender'),
 	dataStore = require('docstore'),
-	serverUtil = require('./server-util.js');
+	serverUtil = require('./server-util.js'),
+	fileUtil = require('./file-util.js');
 
 var utorrentUrl = 'http://' + ip.address() + ':9090/gui/latest.html';
 var serverdeets = { canSend: false, email: '', password: ''};
 var fileList = [];
-var plexPath = '';
+var plexdeets = { path: '', libMovies: '', libTvShows: '' };
 var db = {};
 
 var utClient = new utorrent('localhost', '9090');
@@ -102,14 +103,10 @@ app.get('/serverdeets', function(req, res) {
 app.get('/plexdeets', function(req, res) {
 	db.get('plexdeets', function(err, doc) {
 		if (err) {
-			res.status(200).json({
-				path: plexPath
-			});
+			res.status(200).json(plexdeets);
 		}
 		else {
-			res.status(200).json({
-				path: (JSON.parse(doc.jsonStr)).path
-			});
+			res.status(200).json(JSON.parse(doc.jsonStr));
 		}
 	});
 });
@@ -142,7 +139,9 @@ app.post('/filelisting', function(req, res) {
 
 app.post('/plexdeets', function(req, res) {
 	serverUtil.saveToDatastore('plexdeets', req.body, db);
-	plexPath = req.body.path;
+	plexdeets.path = req.body.path;
+	plexdeets.libMovies = req.body.libMovies;
+	plexdeets.libTvShows = req.body.libTvShows;
 	res.sendStatus(200);
 });
 

@@ -48,8 +48,8 @@ angular.module('mediaCenter.services', [])
 					.success(successCb)
 					.error(errorCb);
 				},
-				sendPlexPath: function(plexPath, successCb, errorCb) {
-					$http.post(appSettings.serverUrl + '/plexdeets', {path: plexPath})
+				sendPlexPath: function(plexDetails, successCb, errorCb) {
+					$http.post(appSettings.serverUrl + '/plexdeets', plexDetails)
 					.success(successCb)
 					.error(errorCb);
 				},

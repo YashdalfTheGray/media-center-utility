@@ -37,11 +37,21 @@
 	<div class="panel-body">
 		<div class="input-group">
 			<span class="input-group-addon">Plex server path</span>
-			<input type="text" class="form-control" placeholder="Path to Plex Media Server.exe" ng-model="plexPath">
+			<input type="text" class="form-control" placeholder="Path to Plex Media Server.exe" ng-model="plex.path">
+		</div>
+		<p></p>
+		<div class="input-group">
+			<span class="input-group-addon">Movies Library Path</span>
+			<input type="text" class="form-control" placeholder="Path to Movies" ng-model="plex.libMovies">
+		</div>
+		<p></p>
+		<div class="input-group">
+			<span class="input-group-addon">TV Shows Library Path</span>
+			<input type="text" class="form-control" placeholder="Path to TV Shows" ng-model="plex.libTvShows">
 		</div>
 		<p></p>
 		<button type="button" class="btn btn-primary" ng-click="updatePlexSettings()">Save</button>
-		<button type="button" class="btn btn-primary" ng-click="refreshPlex()" ng-class="{ disabled: !plexPath }">
+		<button type="button" class="btn btn-primary" ng-click="refreshPlex()" ng-class="{ disabled: !plex.path }">
 			Refresh Plex Server
 		</button>
 	</div>
