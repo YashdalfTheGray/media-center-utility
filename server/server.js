@@ -139,9 +139,7 @@ app.post('/filelisting', function(req, res) {
 
 app.post('/plexdeets', function(req, res) {
 	serverUtil.saveToDatastore('plexdeets', req.body, db);
-	plexdeets.path = req.body.path;
-	plexdeets.libMovies = req.body.libMovies;
-	plexdeets.libTvShows = req.body.libTvShows;
+	plexdeets = req.body;
 	res.sendStatus(200);
 });
 
