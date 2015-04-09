@@ -58,24 +58,39 @@ app.get('/finished', function(req, res) {
 
 	var fileNotifier = serverUtil.findNotifierForFile(req.query.name, fileList);
 
-	if (fileNotifier.found && serverdeets.canSend) {
-		gmailSender.send({
-			smtp: {
-				service: 'Gmail',
-				user: serverdeets.email,
-				pass: serverdeets.password
-			},
-			to: {
-				email: fileNotifier.file.notifyEmail,
-				name: fileNotifier.file.notifyEmail,
-				surname: ''
-			},
-			subject: 'Download done!',
-			template: './server/email-template.html',
-			data: {
-				fileName: fileNotifier.file.name
-			}
-		});
+	if (fileNotifier.found) {
+
+		/*if(fileNotifier.file.type === 'movie') {
+			console.log(req.query.directory);
+			console.log(plexdeets.libMovies);
+			console.log(fileNotifier.file);
+			fileUtil.processFiles(req.query.directory, plexdeets.libMovies, fileNotifier.file);
+			fileUtil.cleanUp(plexdeets.libMovies);
+		}
+		else if (fileNotifier.file.type === 'show') {
+			fileUtil.processFiles(req.query.directory, plexdeets.libTvShows, fileNotifier.file);
+			fileUtil.cleanUp(plexdeets.libTvShows);
+		}*/
+
+		if (serverdeets.canSend) {
+			gmailSender.send({
+				smtp: {
+					service: 'Gmail',
+					user: serverdeets.email,
+					pass: serverdeets.password
+				},
+				to: {
+					email: fileNotifier.file.notifyEmail,
+					name: fileNotifier.file.notifyEmail,
+					surname: ''
+				},
+				subject: 'Download done!',
+				template: './server/email-template.html',
+				data: {
+					fileName: fileNotifier.file.name
+				}
+			});
+		}
 	}
 
 	res.sendStatus(200);
@@ -110,11 +125,11 @@ app.get('/plexdeets', function(req, res) {
 		}
 	});
 });
-app.get('/filenotifier', function(req, res) {
+app.get('/filelisting', function(req, res) {
 	var fileNotifier = serverUtil.findNotifierForFile(req.query.file, fileList, false);
 	console.log(fileList);
 	if (fileNotifier.found) {
-		res.status(200).send(fileNotifier.file.notifyEmail);
+		res.status(200).json(fileNotifier.file);
 	}
 	else {
 		res.status(200).end();

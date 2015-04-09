@@ -57,12 +57,12 @@ angular.module('mediaCenter.controllers', [])
 					console.log(data);
 				});
 			};
-			$scope.fetchNotifier = function(fileName, index) {
-				var notifyWell = angular.element(document.getElementById('fileDetailsWell' + index.toString()));
-				if (!notifyWell.is(':visible')) {
-					dataService.getNotifyEmail(fileName, function(data) {
+			$scope.fetchfileListing = function(fileName, index) {
+				var fileDetailsWell = angular.element(document.getElementById('fileDetailsWell' + index.toString()));
+				if (!fileDetailsWell.is(':visible')) {
+					dataService.getFileListing(fileName, function(data) {
 						if (data) {
-							$scope.filesInProgress[index].notifyEmail = data;
+							$scope.filesInProgress[index] = data;
 						}
 					},
 					function(data, status, header, config) {

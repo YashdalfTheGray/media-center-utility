@@ -43,8 +43,8 @@ angular.module('mediaCenter.services', [])
 					.success(successCb)
 					.error(errorCb);
 				},
-				getNotifyEmail: function(fileName, successCb, errorCb) {
-					$http.get(appSettings.serverUrl + '/filenotifier?file=' + fileName)
+				getFileListing: function(fileName, successCb, errorCb) {
+					$http.get(appSettings.serverUrl + '/filelisting?file=' + fileName)
 					.success(successCb)
 					.error(errorCb);
 				},

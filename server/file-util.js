@@ -21,7 +21,7 @@ var videoFormats = [
 ];
 
 exports.processFiles = function(source, destination, fileDetails) {
-	gulp.src(source + '/**/*')
+	return gulp.src(source + '/**/*')
 	.pipe(rename(function(path) {
 		if (_.indexOf(videoFormats, path.extname) !== -1 && path.basename.indexOf('sample') === -1) {
 			path.basename = fileDetails.title;
@@ -38,5 +38,5 @@ exports.processFiles = function(source, destination, fileDetails) {
 }
 
 exports.cleanUp = function(destination) {
-	del([destination + '/**/*.fluff'], {force: true});
+	return del([destination + '/**/*.fluff'], {force: true});
 }

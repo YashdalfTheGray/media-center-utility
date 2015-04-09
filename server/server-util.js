@@ -24,7 +24,7 @@ exports.updateFileListing = function(file, fileList) {
 		fileList.push(file);
 	}
 	else {
-		fileList[index].notifyEmail = file.notifyEmail;
+		fileList[index] = file;
 	}
 };
 

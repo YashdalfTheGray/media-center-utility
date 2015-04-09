@@ -12,7 +12,7 @@
 			<li class="list-group-item" ng-repeat="file in filesInProgress track by $index">
 				<button class="btn btn-default button-notify-mc" type="button" data-toggle="collapse" 
 						data-target="#fileDetailsWell{{$index}}" aria-expanded="false" aria-controls="fileDetailsWell{{$index}}"
-						ng-click="fetchNotifier(file.name, $index)">
+						ng-click="fetchfileListing(file.name, $index)">
 					<span class="glyphicon glyphicon-cog"></span>
 				</button>
 				{{file.name}}
